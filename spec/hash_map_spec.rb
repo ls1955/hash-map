@@ -62,7 +62,7 @@ RSpec.describe HashMap do
     it "could removes all key value pair from self" do
       keys.zip(vals).each { |key, val| subject.set(key:, val:) }
       subject.clear
-      keys.each { |key| expect(subject.get(key:)).to be_nil }
+      expect(subject.length).to be_zero
     end
   end
 
