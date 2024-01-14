@@ -4,6 +4,7 @@ require "debug"
 
 require_relative "../src/hash_map"
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe HashMap do
   let(:key) { "tuna" }
   let(:val) { "kuma" }
@@ -86,3 +87,4 @@ RSpec.describe HashMap do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
