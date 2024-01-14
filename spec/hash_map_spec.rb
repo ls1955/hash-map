@@ -58,11 +58,22 @@ RSpec.describe HashMap do
     end
   end
 
+  describe "#empty?" do
+    it "returns false if there are key value pair" do
+      subject.set(key:, val:)
+      expect(subject).to_not be_empty
+    end
+
+    it "returns true if there are no key value pair" do
+      expect(subject).to be_empty
+    end
+  end
+
   describe "#clear" do
     it "could removes all key value pair from self" do
       keys.zip(vals).each { |key, val| subject.set(key:, val:) }
       subject.clear
-      expect(subject.length).to be_zero
+      expect(subject).to be_empty
     end
   end
 

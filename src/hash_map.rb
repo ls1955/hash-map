@@ -43,6 +43,8 @@ class HashMap
     # TODO: adjust_bucket_size_if_required
   end
 
+  def empty? = length.zero?
+
   def length = @buckets.compact.sum(&:size)
 
   def clear = @buckets.clear
