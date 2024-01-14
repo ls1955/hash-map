@@ -62,7 +62,6 @@ class HashMap
       return to_enum(__method__) unless block_given?
 
       curr = self
-
       while curr
         yield curr
         curr = curr.next
