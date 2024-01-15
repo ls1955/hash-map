@@ -28,8 +28,6 @@ class HashMap
 
     node = @buckets[index].each_node.find { _1.key == key }
     node ? node.val = val : @buckets[index] = Node.new(key:, val:, next: @buckets[index])
-
-    # TODO: adjust_bucket_size_if_required
   end
 
   def key?(key:) = !!get(key:)
@@ -101,9 +99,33 @@ class HashMap
     str.each_char.reduce(0) { |result, char| PRIME_NUM * result + char.ord }
   end
 
+  def load_factor = 1.fdiv(length)
+
   LOAD_FACTOR = 0.75
 
-  def adjust_bucket_size
-    # TODO
+  def enlarge_buckets_if_require
+    return if load_factor <= LOAD_FACTOR
+
+    @capacity *= 2
+    new_buckets = Array.new(capacity)
+    copy_old_buckets_to_new_buckets(new_buckets)
+    @buckets = new_buckets
+  end
+
+  def copy_old_buckets_to_new_buckets(new_buckets)
+    @buckets.compact.each do |list|
+      list.each_node do |node|
+        index = index(node.key)
+
+        next new_buckets[index] = Node.new(key:, val:) unless new_buckets[index]
+
+        existed_node = new_buckets[index].each_node.find { _1.key == key }
+        if existed_node
+          existed_node.val = node.val
+        else
+          new_buckets[index] = Node.new(key:, val:, next: new_buckets[index])
+        end
+      end
+    end
   end
 end

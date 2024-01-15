@@ -97,5 +97,23 @@ RSpec.describe HashMap do
       expect(subject.entries).to match_array keys.zip(vals)
     end
   end
+
+  describe "#capacity" do
+    it "by default have a capacity of 16" do
+      expect(subject.capacity).to eq 16
+    end
+
+    it "could be given initial capacity" do
+      initial_capacity = 24
+      subject = described_class.new(initial_capacity:)
+      expect(subject.capacity).to eq initial_capacity
+    end
+
+    it "grows if capacity if exceed own load factor" do
+      initial_capacity = subject.capacity
+      [*"a".."z"].each_with_index { |key, val| subject.set(key:, val:) }
+      expect(subject.capacity).to be >= initial_capacity
+    end
+  end
 end
 # rubocop:enable Metrics/BlockLength
