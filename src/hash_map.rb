@@ -14,6 +14,7 @@ class HashMap
 
   def get(key:)
     index = index(key)
+    check_index(index)
 
     return nil unless @buckets[index]
 
@@ -22,6 +23,7 @@ class HashMap
 
   def set(key:, val:)
     index = index(key)
+    check_index(index)
     @length += 1
 
     return @buckets[index] = Node.new(key:, val:) unless @buckets[index]
@@ -34,6 +36,7 @@ class HashMap
 
   def remove(key:)
     index = index(key)
+    check_index(index)
 
     return nil unless @buckets[index]
 
@@ -126,6 +129,13 @@ class HashMap
           new_buckets[index] = Node.new(key:, val:, next: new_buckets[index])
         end
       end
+    end
+  end
+
+  # Raises an IndexError if index is out of bound.
+  def check_index(index)
+    unless index.between?(0, @buckets.size - 1)
+      raise IndexError, "invalid key: #{index} is out of bound"
     end
   end
 end
