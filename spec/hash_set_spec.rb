@@ -7,7 +7,6 @@ require_relative "../src/hash_set"
 # rubocop:disable Metrics/BlockLength
 RSpec.describe HashSet do
   let(:val) { "kuma" }
-  let(:vals) { %w[burger sandwich ham] }
 
   describe "#get" do
     it "returns nil if value does not exist" do
@@ -37,6 +36,8 @@ RSpec.describe HashSet do
       expect(subject.delete(val:)).to eq val
     end
   end
+
+  let(:vals) { %w[burger sandwich ham] }
 
   describe "#length" do
     it "returns its own length" do

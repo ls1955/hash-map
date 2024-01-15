@@ -8,8 +8,6 @@ require_relative "../src/hash_map"
 RSpec.describe HashMap do
   let(:key) { "tuna" }
   let(:val) { "kuma" }
-  let(:keys) { %w[bonito potato yam] }
-  let(:vals) { %w[burger sandwich ham] }
 
   describe "#get" do
     it "returns nil if key does not exist" do
@@ -50,6 +48,9 @@ RSpec.describe HashMap do
       expect(subject.remove(key:)).to eq val
     end
   end
+
+  let(:keys) { %w[bonito potato yam] }
+  let(:vals) { %w[burger sandwich ham] }
 
   describe "#length" do
     it "returns the amount of key value pair" do
