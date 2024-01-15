@@ -47,7 +47,7 @@ class HashMap
     has_delete = @buckets[index].delete_first_if { |node| node.key == key }&.val
     @length -= 1 if has_delete
 
-    # TODO: adjust_bucket_size_if_required
+    enlarge_buckets_if_require
   end
 
   def empty? = length.zero?
@@ -85,9 +85,8 @@ class HashMap
     def delete_first_if
       each_node do |node|
         break unless node.next
-        next unless yield node.next
 
-        return node.next.tap { node.next = node.next.next }
+        return node.next.tap { node.next = node.next.next } if yield node.next
       end
     end
   end
