@@ -4,11 +4,12 @@ require "debug"
 
 # :nodoc:
 class HashMap
-  attr_reader :capacity
+  attr_reader :capacity, :length
 
   def initialize(initial_capacity: 16)
     @buckets = Array.new(initial_capacity)
     @capacity = initial_capacity
+    @length = 0
   end
 
   def get(key:)
@@ -21,6 +22,7 @@ class HashMap
 
   def set(key:, val:)
     index = index(key)
+    @length += 1
 
     return @buckets[index] = Node.new(key:, val:) unless @buckets[index]
 
@@ -36,18 +38,24 @@ class HashMap
     index = index(key)
 
     return nil unless @buckets[index]
-    return @buckets[index].val.tap { @buckets[index] = nil } if @buckets[index].size == 1
 
-    @buckets[index].delete_first_if { |node| node.key == key }&.val
+    if @buckets[index].size == 1
+      @length -= 1
+      return @buckets[index].val.tap { @buckets[index] = nil }
+    end
+
+    has_delete = @buckets[index].delete_first_if { |node| node.key == key }&.val
+    @length -= 1 if has_delete
 
     # TODO: adjust_bucket_size_if_required
   end
 
   def empty? = length.zero?
 
-  def length = @buckets.compact.sum(&:size)
-
-  def clear = @buckets.clear
+  def clear
+    @buckets.clear
+    @length = 0
+  end
 
   def keys = @buckets.compact.flat_map { |node| node.each_node.collect(&:key) }
 
