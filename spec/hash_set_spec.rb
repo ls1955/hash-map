@@ -11,12 +11,12 @@ RSpec.describe HashSet do
 
   describe "#get" do
     it "returns nil if value does not exist" do
-      expect(subject).to_not be_include(val:)
+      expect(subject.get(val:)).to be_nil
     end
 
     it "returns value if it exist" do
       subject.add(val:)
-      expect(subject).to be_include(val:)
+      expect(subject.get(val:)).to eq val
     end
   end
 
