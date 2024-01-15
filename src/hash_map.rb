@@ -61,7 +61,9 @@ class HashMap
 
   def values = @buckets.compact.flat_map { |node| node.each_node.collect(&:val) }
 
-  def entries = keys.zip(values)
+  def entries
+    @buckets.compact.map { |node| node.each_node.collect { [_1.key, _1.val] } }.flatten(1)
+  end
 
   private
 
