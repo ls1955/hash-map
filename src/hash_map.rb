@@ -102,12 +102,12 @@ class HashMap
     str.each_char.reduce(0) { |result, char| PRIME_NUM * result + char.ord }
   end
 
-  def load_factor = 1.fdiv(length)
+  def load_factor = length.fdiv(capacity)
 
-  LOAD_FACTOR = 0.75
+  MAX_LOAD_FACTOR = 0.75
 
   def enlarge_buckets_if_require
-    return if load_factor <= LOAD_FACTOR
+    return if load_factor <= MAX_LOAD_FACTOR
 
     @capacity *= 2
     new_buckets = Array.new(capacity)
